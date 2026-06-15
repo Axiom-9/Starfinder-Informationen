@@ -2,759 +2,492 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Die Crew | Starfinder Kampagne</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Die Crew | Starfinder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #060a0f;
-    --bg2: #0b1018;
-    --panel: #0d1520;
-    --border: #1a3a5c;
-    --accent: #00d4ff;
-    --accent2: #ff6b2b;
-    --accent3: #7fff00;
-    --text: #c8dde8;
-    --text-dim: #5a7a8a;
-    --glow: 0 0 20px rgba(0,212,255,0.3);
-    --glow2: 0 0 20px rgba(255,107,43,0.3);
-  }
-
-  * { margin:0; padding:0; box-sizing:border-box; }
-
-  html { scroll-behavior: auto; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 17px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* SCANLINE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.03) 2px,
-      rgba(0,0,0,0.03) 4px
-    );
-    pointer-events: none;
-    z-index: 9999;
-  }
-
-  /* HEADER */
-  header {
-    position: relative;
-    padding: 0;
-    text-align: center;
-    overflow: hidden;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .header-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 30% at 80% 50%, rgba(255,107,43,0.06) 0%, transparent 60%),
-      linear-gradient(180deg, #0a1825 0%, var(--bg) 100%);
-  }
-
-  .header-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-
-  .header-content {
-    position: relative;
-    z-index: 2;
-    padding: 60px 20px 50px;
-  }
-
-  .station-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 6px;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    opacity: 0.8;
-  }
-
-  h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(28px, 5vw, 64px);
-    font-weight: 900;
-    color: #fff;
-    text-shadow: 0 0 40px rgba(0,212,255,0.5), 0 0 80px rgba(0,212,255,0.2);
-    letter-spacing: 4px;
-    line-height: 1.1;
-    margin-bottom: 8px;
-  }
-
-  .subtitle {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    color: var(--accent2);
-    letter-spacing: 3px;
-    margin-bottom: 30px;
-  }
-
-  .header-divider {
-    width: 200px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    margin: 0 auto 24px;
-  }
-
-  .riss-warning {
-    display: inline-block;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: var(--accent3);
-    border: 1px solid rgba(127,255,0,0.3);
-    padding: 6px 20px;
-    background: rgba(127,255,0,0.05);
-    animation: blink 3s ease-in-out infinite;
-  }
-
-  @keyframes blink {
-    0%, 90%, 100% { opacity: 1; }
-    95% { opacity: 0.3; }
-  }
-
-  /* NAV */
-  nav {
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .nav-inner {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  nav a {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--text-dim);
-    text-decoration: none;
-    padding: 16px 20px;
-    border-right: 1px solid var(--border);
-    transition: color 0.2s;
-    text-transform: uppercase;
-    position: relative;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-  }
-
-  nav a:first-child { border-left: 1px solid var(--border); }
-
-  nav a:hover {
-    color: var(--accent);
-  }
-
-  nav a.nav-active {
-    color: var(--accent);
-  }
-
-  nav a.nav-active::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-  }
-
-
-
-  nav a::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transition: transform 0.2s;
-  }
-
-  nav a.nav-active::after {
-    transform: scaleX(1);
-  }
-  main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px 80px;
-  }
-
-  /* SECTION HEADERS */
-  .section {
-    margin-top: 80px;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 40px;
-  }
-
-  .section-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: var(--accent);
-    background: rgba(0,212,255,0.08);
-    border: 1px solid rgba(0,212,255,0.2);
-    padding: 4px 12px;
-    white-space: nowrap;
-  }
-
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--border), transparent);
-  }
-
-  h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(18px, 3vw, 28px);
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 2px;
-  }
-
-  /* CARDS */
-  .card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    padding: 28px;
-    position: relative;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-
-  .card:hover {
-    border-color: rgba(0,212,255,0.4);
-    box-shadow: var(--glow);
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--accent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .card:hover::before { opacity: 1; }
-
-  /* ADVENTURE TIMELINE */
-  .timeline {
-    position: relative;
-    padding-left: 40px;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px; top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(180deg, var(--accent), transparent);
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 40px;
-  }
-
-  .timeline-dot {
-    position: absolute;
-    left: -34px;
-    top: 4px;
-    width: 12px;
-    height: 12px;
-    border: 1px solid var(--accent);
-    background: var(--bg);
-    transform: rotate(45deg);
-    transition: background 0.3s;
-  }
-
-  .timeline-item:hover .timeline-dot {
-    background: var(--accent);
-    box-shadow: 0 0 12px var(--accent);
-  }
-
-  .timeline-num {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--accent2);
-    letter-spacing: 3px;
-    margin-bottom: 6px;
-  }
-
-  .timeline-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 10px;
-    cursor: pointer;
-  }
-
-  .timeline-players {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 2px;
-    margin-bottom: 14px;
-  }
-
-  .timeline-text {
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.7;
-  }
-
-  .timeline-item .card {
-    cursor: default;
-  }
-
-  /* EXPANDABLE */
-  .expand-btn {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    background: none;
-    border: 1px solid rgba(0,212,255,0.3);
-    padding: 6px 14px;
-    cursor: pointer;
-    margin-top: 14px;
-    transition: all 0.2s;
-  }
-
-  .expand-btn:hover {
-    background: rgba(0,212,255,0.1);
-  }
-
-  .expandable {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease;
-  }
-
-  .expandable.open {
-    max-height: 2000px;
-  }
-
-  .expandable-inner {
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-    margin-top: 16px;
-    font-size: 15px;
-    color: var(--text);
-    line-height: 1.7;
-  }
-
-  /* CHARACTER GRID */
-  .char-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
-
-  .char-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    padding: 24px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s;
-  }
-
-  .char-card:hover {
-    border-color: rgba(0,212,255,0.5);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4), var(--glow);
-  }
-
-  .char-corner {
-    position: absolute;
-    top: 0; right: 0;
-    width: 40px; height: 40px;
-    border-left: 1px solid var(--accent);
-    border-bottom: 1px solid var(--accent);
-    opacity: 0.3;
-  }
-
-  .char-species {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--accent2);
-    margin-bottom: 6px;
-  }
-
-  .char-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 4px;
-  }
-
-  .char-class {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 2px;
-    margin-bottom: 14px;
-  }
-
-  .char-divider {
-    height: 1px;
-    background: linear-gradient(90deg, var(--border), transparent);
-    margin: 14px 0;
-  }
-
-  .char-bio {
-    font-size: 14px;
-    color: var(--text-dim);
-    line-height: 1.6;
-  }
-
-  .char-tag {
-    display: inline-block;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 2px;
-    color: var(--accent3);
-    border: 1px solid rgba(127,255,0,0.3);
-    padding: 2px 8px;
-    margin-top: 10px;
-    margin-right: 4px;
-  }
-
-  /* NPC SECTION */
-  .npc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-  }
-
-  .npc-card {
-    background: rgba(13,21,32,0.8);
-    border: 1px solid var(--border);
-    padding: 20px;
-    transition: all 0.3s;
-  }
-
-  .npc-card:hover {
-    border-color: rgba(255,107,43,0.4);
-    box-shadow: var(--glow2);
-  }
-
-  .npc-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 3px;
-  }
-
-  .npc-role {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--accent2);
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-  }
-
-  .npc-desc {
-    font-size: 13px;
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
-
-  /* FACTION SECTION */
-  .faction-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 24px;
-  }
-
-  .faction-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    padding: 28px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s;
-  }
-
-  .faction-card.danger {
-    border-color: rgba(255,107,43,0.3);
-  }
-
-  .faction-card.danger:hover {
-    border-color: rgba(255,107,43,0.6);
-    box-shadow: var(--glow2);
-  }
-
-  .faction-card.neutral:hover {
-    border-color: rgba(0,212,255,0.5);
-    box-shadow: var(--glow);
-  }
-
-  .faction-status {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    padding: 4px 12px;
-    display: inline-block;
-    margin-bottom: 14px;
-  }
-
-  .status-active { color: var(--accent2); border: 1px solid rgba(255,107,43,0.3); background: rgba(255,107,43,0.07); }
-  .status-controlled { color: var(--accent3); border: 1px solid rgba(127,255,0,0.3); background: rgba(127,255,0,0.07); }
-  .status-unknown { color: var(--text-dim); border: 1px solid var(--border); }
-  .status-escaped { color: #ff4444; border: 1px solid rgba(255,68,68,0.3); background: rgba(255,68,68,0.07); }
-
-  .faction-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 10px;
-  }
-
-  .faction-desc {
-    font-size: 14px;
-    color: var(--text-dim);
-    line-height: 1.6;
-    margin-bottom: 14px;
-  }
-
-  .faction-detail {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.6;
-    border-top: 1px solid var(--border);
-    padding-top: 14px;
-  }
-
-  /* BASE SECTION */
-  .base-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-
-  @media (max-width: 700px) {
-    .base-grid { grid-template-columns: 1fr; }
-    .char-grid { grid-template-columns: 1fr; }
-    .faction-grid { grid-template-columns: 1fr; }
-    nav a { font-size: 9px; padding: 12px 10px; letter-spacing: 1px; }
-  }
-
-  .base-item {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    padding: 20px;
-  }
-
-  .base-item-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 8px;
-    letter-spacing: 2px;
-  }
-
-  .base-item-desc {
-    font-size: 14px;
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
-
-  /* INFO BOX */
-  .info-box {
-    background: rgba(0,212,255,0.04);
-    border: 1px solid rgba(0,212,255,0.2);
-    border-left: 3px solid var(--accent);
-    padding: 16px 20px;
-    margin: 20px 0;
-    font-size: 14px;
-    color: var(--text);
-    line-height: 1.6;
-  }
-
-  .info-box.warning {
-    background: rgba(255,107,43,0.04);
-    border-color: rgba(255,107,43,0.2);
-    border-left-color: var(--accent2);
-  }
-
-  /* RISS SECTION */
-  .riss-card {
-    background: linear-gradient(135deg, rgba(13,21,32,0.95), rgba(20,10,30,0.95));
-    border: 1px solid rgba(127,0,255,0.3);
-    padding: 32px;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 30px;
-  }
-
-  .riss-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(127,0,255,0.05), transparent);
-    pointer-events: none;
-  }
-
-  .riss-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #bf7fff;
-    margin-bottom: 14px;
-    text-shadow: 0 0 20px rgba(127,0,255,0.5);
-  }
-
-  .riss-text {
-    font-size: 15px;
-    color: #a090b0;
-    line-height: 1.7;
-  }
-
-  .riss-anchor {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(127,0,255,0.1);
-  }
-
-  .anchor-dot {
-    width: 8px; height: 8px;
-    background: #bf7fff;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #bf7fff;
-    flex-shrink: 0;
-  }
-
-  .anchor-text {
-    font-size: 14px;
-    color: #a090b0;
-  }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 30px 20px;
-    text-align: center;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 3px;
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .section {
-    animation: fadeInUp 0.5s ease both;
-  }
-
-  /* HIGHLIGHT */
-  .hl { color: var(--accent); }
-  .hl2 { color: var(--accent2); }
-  .hl3 { color: var(--accent3); }
-
-  /* STAT ROW */
-  .stat-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(26,58,92,0.4);
-    font-size: 14px;
-  }
-
-  .stat-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--text-dim);
-  }
-
-  .stat-val {
-    color: var(--text);
-    font-weight: 600;
-  }
-
-  /* INTRO BOX */
-  .intro-box {
-    background: linear-gradient(135deg, var(--panel), rgba(13,21,32,0.5));
-    border: 1px solid var(--border);
-    padding: 36px;
-    margin-bottom: 60px;
-    position: relative;
-  }
-
-  .intro-box::after {
-    content: '';
-    position: absolute;
-    bottom: 0; right: 0;
-    width: 60px; height: 60px;
-    border-top: 1px solid var(--accent);
-    border-left: 1px solid var(--accent);
-    opacity: 0.3;
-  }
-
-  .intro-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 13px;
-    letter-spacing: 4px;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
-
-  .intro-text {
-    font-size: 16px;
-    color: var(--text);
-    line-height: 1.8;
-    max-width: 800px;
-  }
-
+:root {
+  --bg: #060a0f;
+  --bg2: #0b1018;
+  --panel: #0d1520;
+  --border: #1a3a5c;
+  --accent: #00d4ff;
+  --accent2: #ff6b2b;
+  --accent3: #7fff00;
+  --text: #c8dde8;
+  --text-dim: #5a7a8a;
+  --glow: 0 0 20px rgba(0,212,255,0.3);
+  --glow2: 0 0 20px rgba(255,107,43,0.3);
+  --r: 6px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* HEADER */
+header {
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.header-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 70%),
+    linear-gradient(180deg, #0a1825 0%, var(--bg) 100%);
+}
+.header-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.header-content {
+  position: relative; z-index: 2;
+  padding: 40px 16px 36px;
+}
+.station-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(32px, 10vw, 56px);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 30px rgba(0,212,255,0.5);
+  letter-spacing: 4px;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.subtitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--accent2);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+.header-divider {
+  width: 160px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  margin: 0 auto 18px;
+}
+.riss-warning {
+  display: inline-block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--accent3);
+  border: 1px solid rgba(127,255,0,0.3);
+  padding: 6px 14px;
+  background: rgba(127,255,0,0.05);
+  animation: blink 3s ease-in-out infinite;
+}
+@keyframes blink {
+  0%,90%,100% { opacity:1; } 95% { opacity:0.3; }
+}
+
+/* NAV */
+nav {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+nav::-webkit-scrollbar { display: none; }
+
+.nav-inner {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  padding: 0 4px;
+}
+
+nav a {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 14px 14px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  flex-shrink: 0;
+  transition: color 0.2s;
+  border-right: 1px solid var(--border);
+}
+nav a:first-child { border-left: 1px solid var(--border); }
+nav a:hover { color: var(--accent); }
+nav a.nav-active { color: var(--accent); }
+nav a.nav-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* MAIN */
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 14px 60px;
+}
+
+/* SECTIONS */
+.section { margin-top: 56px; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.section-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--accent);
+  background: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.2);
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+  min-width: 20px;
+}
+h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(16px, 5vw, 24px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+/* CARDS */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.card:hover { border-color: rgba(0,212,255,0.4); }
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--accent);
+  border-radius: var(--r) 0 0 var(--r);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.card:hover::before { opacity: 1; }
+
+/* INTRO */
+.intro-box {
+  background: linear-gradient(135deg, var(--panel), rgba(13,21,32,0.5));
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px;
+  margin-bottom: 40px;
+}
+.intro-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.intro-text { font-size: 15px; color: var(--text); line-height: 1.7; }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, var(--accent), transparent);
+}
+.timeline-item { position: relative; margin-bottom: 28px; }
+.timeline-dot {
+  position: absolute;
+  left: -24px; top: 6px;
+  width: 10px; height: 10px;
+  border: 1px solid var(--accent);
+  background: var(--bg);
+  transform: rotate(45deg);
+  transition: background 0.3s;
+}
+.timeline-item:hover .timeline-dot { background: var(--accent); }
+.timeline-num {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: var(--accent2);
+  letter-spacing: 3px;
+  margin-bottom: 4px;
+}
+.timeline-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.timeline-players {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.timeline-text { font-size: 14px; line-height: 1.65; color: var(--text); }
+
+.expand-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  background: none;
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 3px;
+  padding: 7px 12px;
+  cursor: pointer;
+  margin-top: 12px;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.expand-btn:active { background: rgba(0,212,255,0.1); }
+
+.expandable { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.expandable.open { max-height: 2000px; }
+.expandable-inner {
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.expandable-inner ul { margin: 8px 0 8px 18px; line-height: 2; }
+
+/* CHAR GRID */
+.char-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.char-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.char-corner {
+  position: absolute; top: 0; right: 0;
+  width: 30px; height: 30px;
+  border-left: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent);
+  opacity: 0.3;
+}
+.char-species {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  color: var(--accent2); margin-bottom: 4px;
+}
+.char-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px; font-weight: 700;
+  color: #fff; margin-bottom: 2px;
+}
+.char-class {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; color: var(--accent);
+  letter-spacing: 2px; margin-bottom: 10px;
+}
+.char-divider { height: 1px; background: linear-gradient(90deg, var(--border), transparent); margin: 10px 0; }
+.char-bio { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+.char-tag {
+  display: inline-block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px; letter-spacing: 1px;
+  color: var(--accent3);
+  border: 1px solid rgba(127,255,0,0.3);
+  border-radius: 2px;
+  padding: 2px 7px;
+  margin-top: 8px; margin-right: 4px;
+}
+
+/* NPC GRID */
+.npc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.npc-card {
+  background: rgba(13,21,32,0.8);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+}
+.npc-name { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+.npc-role { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--accent2); letter-spacing: 2px; margin-bottom: 8px; }
+.npc-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+/* FACTION */
+.faction-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.faction-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+}
+.faction-card.danger { border-color: rgba(255,107,43,0.3); }
+.faction-status {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; letter-spacing: 3px;
+  padding: 3px 10px;
+  display: inline-block;
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
+.status-active { color: var(--accent2); border: 1px solid rgba(255,107,43,0.3); background: rgba(255,107,43,0.07); }
+.status-controlled { color: var(--accent3); border: 1px solid rgba(127,255,0,0.3); background: rgba(127,255,0,0.07); }
+.status-unknown { color: var(--text-dim); border: 1px solid var(--border); }
+.status-escaped { color: #ff4444; border: 1px solid rgba(255,68,68,0.3); background: rgba(255,68,68,0.07); }
+.faction-name { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.faction-desc { font-size: 13px; color: var(--text-dim); line-height: 1.55; margin-bottom: 12px; }
+.faction-detail { font-size: 13px; color: var(--text); line-height: 1.55; border-top: 1px solid var(--border); padding-top: 12px; }
+
+/* BASE */
+.base-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.base-item {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+}
+.base-item-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px; font-weight: 700;
+  color: var(--accent); margin-bottom: 6px; letter-spacing: 2px;
+}
+.base-item-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+/* INFO BOX */
+.info-box {
+  background: rgba(0,212,255,0.04);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 14px 16px;
+  margin: 16px 0;
+  font-size: 13px; line-height: 1.6;
+}
+.info-box.warning {
+  background: rgba(255,107,43,0.04);
+  border-color: rgba(255,107,43,0.2);
+  border-left-color: var(--accent2);
+}
+
+/* RISS */
+.riss-card {
+  background: linear-gradient(135deg, rgba(13,21,32,0.95), rgba(20,10,30,0.95));
+  border: 1px solid rgba(127,0,255,0.3);
+  border-radius: var(--r);
+  padding: 22px;
+  margin-bottom: 20px;
+}
+.riss-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px; font-weight: 700;
+  color: #bf7fff; margin-bottom: 12px;
+  text-shadow: 0 0 16px rgba(127,0,255,0.5);
+}
+.riss-text { font-size: 14px; color: #a090b0; line-height: 1.7; }
+.riss-anchor {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(127,0,255,0.1);
+}
+.anchor-dot {
+  width: 7px; height: 7px; flex-shrink: 0; margin-top: 5px;
+  background: #bf7fff; border-radius: 50%;
+  box-shadow: 0 0 6px #bf7fff;
+}
+.anchor-text { font-size: 13px; color: #a090b0; line-height: 1.55; }
+
+/* STAT ROW */
+.stat-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid rgba(26,58,92,0.4); font-size: 13px;
+}
+.stat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--text-dim); }
+.stat-val { color: var(--text); font-weight: 600; }
+
+.hl { color: var(--accent); }
+.hl2 { color: var(--accent2); }
+.hl3 { color: var(--accent3); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 16px;
+  text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; color: var(--text-dim); letter-spacing: 2px;
+  line-height: 2;
+}
+
+/* TABLET+ */
+@media (min-width: 600px) {
+  .char-grid { grid-template-columns: 1fr 1fr; }
+  .npc-grid { grid-template-columns: 1fr 1fr; }
+  .faction-grid { grid-template-columns: 1fr 1fr; }
+  .base-grid { grid-template-columns: 1fr 1fr; }
+}
 </style>
 </head>
 <body>
@@ -765,9 +498,9 @@
   <div class="header-content">
     <div class="station-label">// Absalom Station – 49. Ebene – Pilsstübchen //</div>
     <h1>DIE CREW</h1>
-    <div class="subtitle">STARFINDER KAMPAGNE &nbsp;·&nbsp; ABSALOM STATION &amp; JENSEITS</div>
+    <div class="subtitle">STARFINDER · ABSALOM STATION &amp; JENSEITS</div>
     <div class="header-divider"></div>
-    <div class="riss-warning">⚠ RISSAKTIVITÄT DETEKTIERT – LOGS WERDEN NEU EINGEORDNET ⚠</div>
+    <div class="riss-warning">⚠ RISSAKTIVITÄT DETEKTIERT ⚠</div>
   </div>
 </header>
 
@@ -785,20 +518,19 @@
 
 <main>
 
-  <!-- INTRO -->
-  <div class="section" id="intro" style="margin-top:50px;">
+  <div class="section" id="intro" style="margin-top:36px;">
     <div class="intro-box">
       <div class="intro-title">// KAMPAGNEN-BRIEFING //</div>
       <p class="intro-text">
-        Sechs Abenteuer. Mehrere Tote (nicht alle davon Feinde). Eine Bar, die jetzt eine Basis ist. Eine KI, die Taylor Swift spielt.
-        Irgendwo zwischen dem Pilsstübchen auf Absalom Station und dem Dschungel von Castrovel hat sich eine Crew gefunden –
+        Sechs Abenteuer. Mehrere Tote. Eine Bar, die jetzt eine Basis ist. Eine KI, die Taylor Swift spielt.
+        Irgendwo zwischen dem Pilsstübchen und dem Dschungel von Castrovel hat sich eine Crew gefunden –
         ob sie das wollte oder nicht. Der Riss tut derweil weiter das, was er am besten kann:
         <span class="hl">Dinge hereinlassen, die nicht hereingehören.</span>
       </p>
     </div>
   </div>
 
-  <!-- ABENTEUER TIMELINE -->
+  <!-- ABENTEUER -->
   <div class="section" id="abenteuer">
     <div class="section-header">
       <div class="section-tag">// LOG //</div>
@@ -808,170 +540,122 @@
 
     <div class="timeline">
 
-      <!-- ABENTEUER 1 -->
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="card">
           <div class="timeline-num">ABENTEUER 01</div>
           <div class="timeline-title">„Glasschnee hinter der Tür"</div>
-          <div class="timeline-players">SPIELER: JULIAN KADE · KHA'RESH</div>
-          <p class="timeline-text">
-            Im Pilsstübchen auf Absalom Station zerbricht ein Glas – aber die Scherben fallen nicht. Sie schweben wie Glasschnee.
-            Julian Kade und Kha'resh ermitteln, finden eine Tür, die nicht existieren sollte, und gehen hindurch.
-            Hinter der Tür: ein Riss-Zwischenraum, Splitterkobolde, ein fehlplatzierter Sumpfhund und der <span class="hl">Spiegelkeim</span> –
-            ein Wesen, das sich durch Imitation tarnt.
-          </p>
+          <div class="timeline-players">JULIAN KADE · KHA'RESH</div>
+          <p class="timeline-text">Im Pilsstübchen zerbricht ein Glas – aber die Scherben fallen nicht. Sie schweben wie Glasschnee. Eine Tür taucht auf, die nicht existieren sollte. Dahinter: ein Riss-Zwischenraum, Splitterkobolde, ein Sumpfhund und der <span class="hl">Spiegelkeim</span>.</p>
           <button class="expand-btn" onclick="toggleExpand(this)">[ DETAILS ANZEIGEN ]</button>
-          <div class="expandable">
-            <div class="expandable-inner">
-              <p><span class="hl2">Highlights:</span></p>
-              <ul style="margin: 10px 0 10px 20px; line-height: 2;">
-                <li>Kha'resh reißt einem Kobold mit seinem Buch den Kopf ab.</li>
-                <li>Julian klaut vor dem Durchgang noch eine Laserpistole von Bob.</li>
-                <li>Kha'resh sprengt den Spiegelkeim direkt zu Beginn so gründlich weg, dass man jetzt prüft, ob die Explosion legal war.</li>
-                <li>Bob erfährt zum ersten Mal vom Riss – und will mehr wissen.</li>
-              </ul>
-              <div class="info-box">
-                <strong>Ergebnis:</strong> Der Riss schließt sich. Die extra Tür ist weg. Bob wird zum wichtigsten Kontakt der Gruppe.
-              </div>
+          <div class="expandable"><div class="expandable-inner">
+            <p><span class="hl2">Highlights:</span></p>
+            <ul>
+              <li>Kha'resh reißt einem Kobold mit seinem Buch den Kopf ab.</li>
+              <li>Julian klaut vorher noch eine Laserpistole von Bob.</li>
+              <li>Kha'resh sprengt den Spiegelkeim so gründlich weg, dass man prüft ob das legal war.</li>
+              <li>Bob erfährt zum ersten Mal vom Riss.</li>
+            </ul>
+            <div class="info-box">
+              <strong>Ergebnis:</strong> Riss schließt sich. Bob wird wichtigster Kontakt der Gruppe.
             </div>
-          </div>
+            <div class="info-box warning">
+              <strong>Zahlen:</strong> Die Nummern <span class="hl">4 – 8 – 9</span> tauchen im Riss-Korridor als Stationsmarkierungen auf. Niemand weiß warum.
+            </div>
+          </div></div>
         </div>
       </div>
 
-      <!-- ABENTEUER 2 -->
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="card">
           <div class="timeline-num">ABENTEUER 02</div>
           <div class="timeline-title">„Was durch den Riss kam"</div>
-          <div class="timeline-players">SPIELER: ROK · CODY · XERATH · KAELIS</div>
-          <p class="timeline-text">
-            Im Stachel der Absalom Station erschüttert ein unerklärlicher Vorfall die Realität. Kreaturen, die flackern, als wären sie nicht ganz real,
-            brechen hervor. Rok steht vorne, Cody reitet auf seiner Schulter, Xerath fällt buchstäblich aus Ägypten ins Geschehen.
-            Kaelis macht nebenbei ein Date mit einer Sanitäterin und trägt jetzt eine Goblin-Ohren-Kette.
-          </p>
+          <div class="timeline-players">ROK · CODY · XERATH · KAELIS</div>
+          <p class="timeline-text">Im Stachel der Station erschüttert ein Vorfall die Realität. Kreaturen, die flackern. Rok steht vorne, Cody reitet auf seiner Schulter, Xerath fällt aus Ägypten ins Geschehen, Kaelis macht ein Date mit einer Sanitäterin.</p>
           <button class="expand-btn" onclick="toggleExpand(this)">[ DETAILS ANZEIGEN ]</button>
-          <div class="expandable">
-            <div class="expandable-inner">
-              <p>Nach den Kämpfen landen alle im Pilsstübchen – das sich als alles andere als sicher herausstellt.
-              Der <span class="hl">Phasenspringende Rissparasit</span> hatte sich bereits versteckt und tarnte sich als Stammgast.</p>
-              <p style="margin-top:12px;">Der Kampf war brutal. Mehr als einmal sah es nach einem Totalverlust aus. Aber die Gruppe hielt durch.</p>
-              <div class="info-box">
-                <strong>Ergebnis:</strong> Der Rissparasit ist besiegt. Bob kennt jetzt vier weitere komische Leute. Die Zahlen <span class="hl">1 – 4 – 6</span> tauchen immer wieder auf.
-              </div>
+          <div class="expandable"><div class="expandable-inner">
+            <p>Im Pilsstübchen lauerte bereits der <span class="hl">Phasenspringende Rissparasit</span> als Stammgast verkleidet. Der Kampf war brutal – aber die Gruppe hielt durch.</p>
+            <div class="info-box">
+              <strong>Ergebnis:</strong> Parasit besiegt. Die Zahlen <span class="hl">1 – 4 – 6</span> tauchen immer wieder auf.
             </div>
-          </div>
+          </div></div>
         </div>
       </div>
 
-      <!-- ABENTEUER 3 -->
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="card">
           <div class="timeline-num">ABENTEUER 03</div>
           <div class="timeline-title">„Echo im Schrottlicht"</div>
-          <div class="timeline-players">SPIELER: OPHELIA · NU'UM · SCREW &amp; BOLT</div>
-          <p class="timeline-text">
-            Screw will Nu'ums „toten" Körper an eine Forschungsstation verkaufen. Der Deal kippt, als ein Riss aufbricht
-            und Nu'um erwacht – viel zu lebendig für „Ware". Dr. Elya Voss flieht in Panik und schließt die Gruppe dabei ein.
-            Was folgt: Ghoule, ein Grabmarschall, Flucht durch drei verschiedene Stationssektoren, und ein Bosskampf gegen den Rissritter.
-          </p>
+          <div class="timeline-players">OPHELIA · NU'UM · SCREW &amp; BOLT</div>
+          <p class="timeline-text">Screw will Nu'ums „toten" Körper verkaufen. Der Deal kippt, als ein Riss aufbricht und Nu'um erwacht. Dr. Voss flieht in Panik und sperrt die Gruppe ein. Es folgen Ghoule, ein Grabmarschall und der Rissritter.</p>
           <button class="expand-btn" onclick="toggleExpand(this)">[ DETAILS ANZEIGEN ]</button>
-          <div class="expandable">
-            <div class="expandable-inner">
-              <ul style="margin: 10px 0 10px 20px; line-height: 2;">
-                <li>Nu'um bringt einen Ghoul dazu, sich in sie zu verlieben und seinen Kumpel umzubringen – und sieht dann, wie ihr neuer „Freund" halbiert wird.</li>
-                <li>Ophelia lernt: Man kann sich auch an Kameras <em>vorbeischleichen</em>.</li>
-                <li>Bolt wirft sich heldenhaft vor Screw – Screw rollt einfach zur Seite.</li>
-                <li>Nu'um beendet den Kampf mit ihrem Boomerangmesser durch den freigelegten Kern des Rissritters.</li>
-              </ul>
-              <div class="info-box warning">
-                <strong>Wichtig:</strong> Der Grabmarschall musterte Nu'um und sagte: <em>„Das Echo hat einen Körper gefunden."</em>
-              </div>
+          <div class="expandable"><div class="expandable-inner">
+            <ul>
+              <li>Nu'um bringt einen Ghoul dazu, sich in sie zu verlieben – und seinen Kumpel umzubringen.</li>
+              <li>Ophelia lernt: Man kann Kameras auch umgehen statt zu zerschießen.</li>
+              <li>Bolt wirft sich vor Screw – Screw rollt zur Seite.</li>
+              <li>Nu'um beendet den Kampf mit ihrem Boomerangmesser durch den Kern des Rissritters.</li>
+            </ul>
+            <div class="info-box warning">
+              <strong>Wichtig:</strong> Der Grabmarschall sagte: <em>„Das Echo hat einen Körper gefunden."</em>
             </div>
-          </div>
+            <div class="info-box warning">
+              <strong>Zahlen:</strong> Die Nummern <span class="hl">3 – 9</span> tauchen in Stationslogs und Beschriftungen auf Apophis Delta auf.
+            </div>
+          </div></div>
         </div>
       </div>
 
-      <!-- ABENTEUER 4 -->
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="card">
           <div class="timeline-num">ABENTEUER 04</div>
           <div class="timeline-title">„Das Versteck der Drachenklaue"</div>
-          <div class="timeline-players">SPIELER: ALLE</div>
-          <p class="timeline-text">
-            Ein Schrottmogul aus dem Ring beauftragt die Gruppe, einen Kriminellen namens Drachenklaue zu stoppen.
-            Die Ermittlungen verlaufen… moralisch fragwürdig. Ein unschuldiger Bürger wird gefoltert und getötet – ohne brauchbare Infos.
-            Im Versteck in der <span class="hl">49. Ebene</span> stellt sich heraus: Drachenklaue ist ein riesiger Roboterdrache.
-          </p>
+          <div class="timeline-players">ROK · CODY · XERATH · OPHELIA · SCREW · NU'UM</div>
+          <p class="timeline-text">Ein Schrottmogul beauftragt die Gruppe gegen den Kriminellen Drachenklaue. Die Ermittlungen verlaufen moralisch fragwürdig. Im Versteck in der <span class="hl">49. Ebene</span> stellt sich heraus: Drachenklaue ist ein riesiger Roboterdrache.</p>
           <button class="expand-btn" onclick="toggleExpand(this)">[ DETAILS ANZEIGEN ]</button>
-          <div class="expandable">
-            <div class="expandable-inner">
-              <p>Drachenklaue entkam nach hartem Kampf. Die Gruppe befreite dafür die Tochter des Schrottmoguls.</p>
-              <div class="info-box">
-                <strong>Ergebnis:</strong> Die Gruppe besitzt jetzt die 49. Ebene als Basis. Bob wird als Barkeeper angeheuert.
-                Drachenklaue ist weiterhin auf freiem Fuß.
-              </div>
+          <div class="expandable"><div class="expandable-inner">
+            <p>Drachenklaue entkam. Die Tochter des Schrottmoguls wurde befreit.</p>
+            <div class="info-box">
+              <strong>Ergebnis:</strong> Die Gruppe besitzt jetzt die 49. Ebene als Basis. Bob wird Barkeeper. Drachenklaue ist auf freiem Fuß.
             </div>
-          </div>
+          </div></div>
         </div>
       </div>
 
-      <!-- ABENTEUER 5 -->
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="card">
           <div class="timeline-num">ABENTEUER 05</div>
           <div class="timeline-title">„Stille im Pilsstübchen"</div>
-          <div class="timeline-players">SPIELER: ROK · CODY · XERATH · OPHELIA · SCREW</div>
-          <p class="timeline-text">
-            Die Gruppe kommt zurück, um Bob in die neue Basis einzuladen – und findet eine leere Bar.
-            Bob wurde entführt. Die Ermittlungen leiden unter schlechten Würfen und erheblichem Alkoholkonsum aus den verbliebenen Vorräten.
-            Der Durchbruch kommt über einen <span class="hl2">Glaswurfwettbewerb</span> auf den Kopf eines Barkeepers.
-          </p>
+          <div class="timeline-players">ROK · CODY · XERATH · OPHELIA · SCREW</div>
+          <p class="timeline-text">Die Gruppe kommt um Bob einzuladen – und findet eine leere Bar. Bob wurde entführt. Die Ermittlungen leiden unter schlechten Würfen und erheblichem Alkoholkonsum. Der Durchbruch kommt über einen <span class="hl2">Glaswurfwettbewerb</span> auf den Kopf eines Barkeepers.</p>
           <button class="expand-btn" onclick="toggleExpand(this)">[ DETAILS ANZEIGEN ]</button>
-          <div class="expandable">
-            <div class="expandable-inner">
-              <p>Die Spur führt zur <strong>Meridian-Kohorte</strong>. Im abgeschotteten Komplex unter der Station findet die Gruppe
-              <strong>Axiom-9</strong> – eine Prognose-Entität. Statt sie zu zerstören, wird sie übernommen und umprogrammiert.</p>
-              <p style="margin-top:12px;">Eine Unterdrückungsdrone wird gekapert. Durch fehlerhafte Neuinitialisierung spielt sie seitdem
-              <span class="hl3">Taylor Swift in Dauerschleife</span>.</p>
-              <div class="info-box">
-                <strong>Ergebnis:</strong> Bob gerettet. Bob zieht dauerhaft in die Basis ein. Axiom-9 ist jetzt Teil der Crew.
-                Die Gruppe hat ein eigenes Raumschiff.
-              </div>
+          <div class="expandable"><div class="expandable-inner">
+            <p>Spur führt zur <strong>Meridian-Kohorte</strong>. Im Komplex findet die Gruppe <strong>Axiom-9</strong>. Statt Zerstörung: Übernahme und Umprogrammierung. Eine Unterdrückungsdrone wird gekapert und spielt seitdem <span class="hl3">Taylor Swift in Dauerschleife</span>.</p>
+            <div class="info-box">
+              <strong>Ergebnis:</strong> Bob gerettet. Axiom-9 in der Basis. Eigenes Raumschiff.
             </div>
-          </div>
+          </div></div>
         </div>
       </div>
 
-      <!-- ABENTEUER 6 -->
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="card">
           <div class="timeline-num">ABENTEUER 06</div>
           <div class="timeline-title">„Jagd des Smaragdschattens"</div>
-          <div class="timeline-players">SPIELER: ROK · NU'UM · SCREW</div>
-          <p class="timeline-text">
-            Bob vermittelt einen Jagdauftrag: Ein Apex-Raubtier auf Castrovel hat mehrere Jagdgruppen getötet.
-            Vorher investiert die Crew noch in drei extrem stylische Safarihüte und besucht Dr. Chrom in der Verbesserungsstube.
-            Der Doktor behält Roks Bein und Nu'ums Haut. Niemand fragt nach.
-          </p>
+          <div class="timeline-players">ROK · NU'UM · SCREW</div>
+          <p class="timeline-text">Jagdauftrag auf Castrovel. Vorher: drei Safarihüte kaufen und Dr. Chrom besuchen. Der Doktor behält Roks Bein und Nu'ums Haut. Niemand fragt nach. Auf Castrovel stirbt Jagdlegende Thoren Drax noch in derselben Nacht.</p>
           <button class="expand-btn" onclick="toggleExpand(this)">[ DETAILS ANZEIGEN ]</button>
-          <div class="expandable">
-            <div class="expandable-inner">
-              <p>Auf Castrovel: Die Crew vergraulte die Kontaktperson sofort. Rok freundete sich mit Jagdlegende
-              <strong>Thoren Drax</strong> an – der noch in derselben Nacht vom Smaragd-Alpha getötet wurde.</p>
-              <p style="margin-top:12px;">Die Wahrheit: Der Smaragd-Alpha war kein natürliches Wesen, sondern ein
-              <span class="hl2">Experiment von Xenodyne Solutions</span>.</p>
-              <div class="info-box warning">
-                <strong>Offener Faden:</strong> Xenodyne Solutions entwickelt biologische Kampfwaffen. Ein Ei der Kreatur wurde gefunden.
-                Was jetzt?
-              </div>
+          <div class="expandable"><div class="expandable-inner">
+            <p>Der Smaragd-Alpha war kein natürliches Wesen, sondern ein <span class="hl2">Experiment von Xenodyne Solutions</span>.</p>
+            <div class="info-box warning">
+              <strong>Offen:</strong> Xenodyne entwickelt biologische Kampfwaffen. Ein Ei wurde gefunden. Was jetzt?
             </div>
-          </div>
+          </div></div>
         </div>
       </div>
 
@@ -982,10 +666,9 @@
   <div class="section" id="charaktere">
     <div class="section-header">
       <div class="section-tag">// CREW //</div>
-      <h2>SPIELER</h2>
+      <h2>CHARAKTERE</h2>
       <div class="section-line"></div>
     </div>
-
     <div class="char-grid">
 
       <div class="char-card">
@@ -994,10 +677,8 @@
         <div class="char-name">ROK</div>
         <div class="char-class">// SOLDAT //</div>
         <div class="char-divider"></div>
-        <p class="char-bio">Die lebende Frontlinie. Löst Probleme bevorzugt mit schwerer Nahkampfwaffe. Fernkampf hält er für feige. Wo es kracht, ist Rok nicht weit. Hat sich mit einer Vesk-Jagdlegende angefreundet – kurz bevor diese starb.</p>
-        <span class="char-tag">TANK</span>
-        <span class="char-tag">NAHKAMPF</span>
-        <span class="char-tag">BIERKRÜGE</span>
+        <p class="char-bio">Die lebende Frontlinie. Löst Probleme mit Nahkampfwaffe. Fernkampf hält er für feige. Hat sich mit einer Jagdlegende angefreundet – kurz bevor diese starb.</p>
+        <span class="char-tag">TANK</span><span class="char-tag">NAHKAMPF</span><span class="char-tag">BIERKRÜGE</span>
       </div>
 
       <div class="char-card">
@@ -1006,10 +687,8 @@
         <div class="char-name">CODY</div>
         <div class="char-class">// TECHNOMAGIER //</div>
         <div class="char-divider"></div>
-        <p class="char-bio">Hochintelligent, moralisch flexibel. Verbotene technomagische Experimente brachten ihm eine Gefängnisstrafe ein. Bevorzugt es, auf Roks Schulter zu sitzen statt selbst zu laufen. Seine Ideen sind meist besser nicht bekannt.</p>
-        <span class="char-tag">TECHNOMAGIE</span>
-        <span class="char-tag">UNTERWELT</span>
-        <span class="char-tag">ROKS SCHULTER</span>
+        <p class="char-bio">Hochintelligent, moralisch flexibel. Verbotene Experimente brachten ihm Gefängnis. Reitet bevorzugt auf Roks Schulter.</p>
+        <span class="char-tag">TECHNOMAGIE</span><span class="char-tag">ROKS SCHULTER</span>
       </div>
 
       <div class="char-card">
@@ -1018,10 +697,8 @@
         <div class="char-name">XERATH</div>
         <div class="char-class">// ASPIRANT //</div>
         <div class="char-divider"></div>
-        <p class="char-bio">Behauptet, aus dem alten Ägypten zu stammen und durch einen Riss in diese Realität gelangt zu sein. Wurde von niemandem ernsthaft hinterfragt. Sein Wissen über alte Kulturen und seine heilenden Kräfte machen ihn unverzichtbar.</p>
-        <span class="char-tag">HEILER</span>
-        <span class="char-tag">MYSTIK</span>
-        <span class="char-tag">RISS-HERKUNFT</span>
+        <p class="char-bio">Behauptet aus dem alten Ägypten zu stammen und durch einen Riss in diese Realität gelangt zu sein. Wurde nicht hinterfragt. Heiler und Mystiker.</p>
+        <span class="char-tag">HEILER</span><span class="char-tag">RISS-HERKUNFT</span>
       </div>
 
       <div class="char-card">
@@ -1030,10 +707,8 @@
         <div class="char-name">KAELIS</div>
         <div class="char-class">// SOLARIER //</div>
         <div class="char-divider"></div>
-        <p class="char-bio">Sucht Erkenntnis über den Weg der Solarier. Rettete Bob einst das Leben – daraus entstand ein Informationsnetz. Trägt eine Goblin-Ohren-Kette, die sein Charisma nachweislich steigert. Hat beim Chaos-Einsatz ein Date gemacht.</p>
-        <span class="char-tag">SOLARIER</span>
-        <span class="char-tag">KONTAKTE</span>
-        <span class="char-tag">OHREN-KETTE</span>
+        <p class="char-bio">Sucht Erkenntnis über die Solarier. Rettete Bob einst das Leben. Trägt eine Goblin-Ohren-Kette, die sein Charisma nachweislich steigert.</p>
+        <span class="char-tag">SOLARIER</span><span class="char-tag">OHREN-KETTE</span>
       </div>
 
       <div class="char-card">
@@ -1042,10 +717,8 @@
         <div class="char-name">NU'UM</div>
         <div class="char-class">// ASPIRANT //</div>
         <div class="char-divider"></div>
-        <p class="char-bio">Besitzt zwei klar getrennte Persönlichkeiten: menschlich-chaotisch und maschinell-sachlich. Wurde durch direkten Riss-Einfluss erwacht. Der Grabmarschall hat sie gezielt wahrgenommen. Was sie war – unbekannt. Was sie ist – noch unklar.</p>
-        <span class="char-tag">DUAL-PERSÖNLICHKEIT</span>
-        <span class="char-tag">RISS-RESONANZ</span>
-        <span class="char-tag">HERKUNFT UNKLAR</span>
+        <p class="char-bio">Zwei Persönlichkeiten: menschlich-chaotisch und maschinell-sachlich. Durch Riss-Einfluss erwacht. Der Grabmarschall hat sie gezielt wahrgenommen.</p>
+        <span class="char-tag">DUAL-MODUS</span><span class="char-tag">RISS-RESONANZ</span>
       </div>
 
       <div class="char-card">
@@ -1054,10 +727,8 @@
         <div class="char-name">OPHELIA</div>
         <div class="char-class">// AGENT //</div>
         <div class="char-divider"></div>
-        <p class="char-bio">Einst eiskalte Kopfgeldjägerin. Verlor bei einem Auftrag ihren Mann. Sucht seitdem einen neuen Sinn. Hat gelernt, dass man sich an Kameras vorbeischleichen kann statt sie zu zerschießen. Arbeitet für Bob als Informantin.</p>
-        <span class="char-tag">AGENT</span>
-        <span class="char-tag">SCHLEICHEN</span>
-        <span class="char-tag">SINNSUCHE</span>
+        <p class="char-bio">Einst Kopfgeldjägerin, verlor ihren Mann. Sucht neuen Sinn. Hat gelernt, Kameras zu umgehen statt zu zerschießen. Arbeitet für Bob.</p>
+        <span class="char-tag">AGENT</span><span class="char-tag">SCHLEICHEN</span>
       </div>
 
       <div class="char-card">
@@ -1066,10 +737,8 @@
         <div class="char-name">SCREW</div>
         <div class="char-class">// MECHANIKER //</div>
         <div class="char-divider"></div>
-        <p class="char-bio">Spezialisiert auf Schrotthandel, Reparaturen und Androidenteile. Praktisch und geschäftstüchtig. Hat Nu'um als „Ware" versucht zu verkaufen, was rückblickend keine gute Idee war. Schreit den ganzen Trip über, weil kein Credit gesehen wird.</p>
-        <span class="char-tag">MECHANIKER</span>
-        <span class="char-tag">DROHNE: BOLT</span>
-        <span class="char-tag">PROFIT</span>
+        <p class="char-bio">Schrotthandel, Reparaturen, Androidenteile. Hat Nu'um als Ware versucht zu verkaufen. Schreit noch immer, weil kein Credit gesehen wird.</p>
+        <span class="char-tag">MECHANIKER</span><span class="char-tag">BOLT</span><span class="char-tag">PROFIT</span>
       </div>
 
       <div class="char-card">
@@ -1078,10 +747,8 @@
         <div class="char-name">JULIAN KADE</div>
         <div class="char-class">// AGENT //</div>
         <div class="char-divider"></div>
-        <p class="char-bio">Ehemaliges Mitglied der Meridian-Kohorte. Verließ die Organisation wegen einer Entscheidung, die er nicht treffen konnte – mit schwerwiegenden Folgen. Analytiker, Mustererkenner. Feste Regel: Nichtstun ist keine neutrale Option.</p>
-        <span class="char-tag">ANALYST</span>
-        <span class="char-tag">EX-MERIDIAN</span>
-        <span class="char-tag">HAT BOBS PISTOLE</span>
+        <p class="char-bio">Ex-Meridian-Kohorte. Analyst. Feste Regel: Nichtstun ist keine neutrale Option. Hat Bobs Pistole.</p>
+        <span class="char-tag">ANALYST</span><span class="char-tag">EX-MERIDIAN</span>
       </div>
 
       <div class="char-card">
@@ -1090,10 +757,8 @@
         <div class="char-name">KHA'RESH</div>
         <div class="char-class">// HEXER //</div>
         <div class="char-divider"></div>
-        <p class="char-bio">Charismatischer Prediger mit einer Gospel, die mit ihm spricht. Wurde aus seinem Orden entfernt, weil seine Auslegung des Glaubens abwich. Ob die Gospel göttlich ist oder Ausdruck eines schleichenden Wahns – unbekannt. Reißt Koboldköpfen ab.</p>
-        <span class="char-tag">PREDIGER</span>
-        <span class="char-tag">GOSPEL</span>
-        <span class="char-tag">RISS-REAKTION</span>
+        <p class="char-bio">Charismatischer Prediger mit einer Gospel, die mit ihm spricht. Aus Orden entfernt. Ob die Gospel göttlich ist oder Ausdruck eines Wahns – unbekannt.</p>
+        <span class="char-tag">PREDIGER</span><span class="char-tag">GOSPEL</span>
       </div>
 
     </div>
@@ -1106,36 +771,33 @@
       <h2>DIE BASIS – 49. EBENE</h2>
       <div class="section-line"></div>
     </div>
-
-    <div class="info-box" style="margin-bottom:30px;">
-      Ehemaliger Besitz eines Schrottmoguls. Erhalten nach dem Abenteuer „Das Versteck der Drachenklaue".
-      Früher eine Geisterebene mit flackernden Realitätsnähten. Heute: das inoffizielle Nervenzentrum der Crew.
+    <div class="info-box" style="margin-bottom:20px;">
+      Ehemaliger Besitz eines Schrottmoguls. Früher eine Geisterebene mit flackernden Realitätsnähten. Heute: das inoffizielle Nervenzentrum der Crew.
     </div>
-
     <div class="base-grid">
       <div class="base-item">
-        <div class="base-item-title">// DAS PILSSTÜBCHEN //</div>
-        <p class="base-item-desc">Bobs Bar – jetzt direkt in der Basis. U-förmiger Tresen, Separées für diskrete Gespräche, und ein NPC für jeden Informationsbedarf. Das inoffizielle Nervenzentrum der 49. Ebene.</p>
+        <div class="base-item-title">// PILSSTÜBCHEN //</div>
+        <p class="base-item-desc">Bobs Bar in der Basis. U-förmiger Tresen, Separées für diskrete Gespräche. Kontaktpunkt und Umschlagplatz.</p>
       </div>
       <div class="base-item">
         <div class="base-item-title">// AXIOM-9 //</div>
-        <p class="base-item-desc">Gebundene Prognose-Entität der ehemaligen Meridian-Kohorte. Übernommen und umprogrammiert. Analysiert, prognostiziert, warnt – handelt aber nicht selbst. Hat eine direkte Verbindung zur Rissenergie.</p>
+        <p class="base-item-desc">Gebundene Prognose-Entität der Meridian-Kohorte. Übernommen und umprogrammiert. Analysiert Situationen, berechnet Wahrscheinlichkeiten und warnt – handelt aber nie selbst. Spricht ruhig, sachlich und ohne Emotion. Weiß, dass seine Modelle irgendwann enden.</p>
       </div>
       <div class="base-item">
-        <div class="base-item-title">// BOB'S RAUMSCHIFF //</div>
-        <p class="base-item-desc">Im Hangar der 49. Ebene. Bob ist der Pilot. Steht der gesamten Crew zur Verfügung. Hat schon Reisen nach Castrovel überlebt.</p>
+        <div class="base-item-title">// RAUMSCHIFF //</div>
+        <p class="base-item-desc">Im Hangar der 49. Ebene. Bob ist Pilot. Hat Castrovel überlebt.</p>
       </div>
       <div class="base-item">
         <div class="base-item-title">// TAYLOR SWIFT JUKEBOX //</div>
-        <p class="base-item-desc">Eine gekaperte Meridian-Unterdrückungsdrone, fehlerhaft neuinitialisiert. Spielt ausschließlich Taylor Swift. Erwies sich überraschend effektiv als psychologische Waffe gegen feindliche Einheiten.</p>
+        <p class="base-item-desc">Gekaperte Meridian-Drohne. Fehlerhaft neuinitialisiert. Spielt ausschließlich Taylor Swift. Psychologisch effektiv gegen Feinde.</p>
       </div>
       <div class="base-item">
-        <div class="base-item-title">// DIE VERBESSERUNGSSTUBE //</div>
-        <p class="base-item-desc">Dr. Vexil Chrom – Augmentationschirurg direkt nebenan. Wirkt ungefähr so vertrauenswürdig wie ein Drogendealer mit Chirurgenlizenz. Hat Roks Bein und Nu'ums Haut behalten. Niemand fragt nach.</p>
+        <div class="base-item-title">// VERBESSERUNGSSTUBE //</div>
+        <p class="base-item-desc">Dr. Vexil Chrom nebenan. Hat Roks Bein und Nu'ums Haut behalten. Niemand fragt warum.</p>
       </div>
       <div class="base-item">
         <div class="base-item-title">// DAS EI //</div>
-        <p class="base-item-desc">Ein Ei des Smaragd-Alpha. Mitgenommen von Castrovel. Produkt illegaler Xenodyne-Experimente. Was damit passiert – offen. Was daraus schlüpft – noch offen.</p>
+        <p class="base-item-desc">Ein Ei des Smaragd-Alpha. Xenodyne-Experiment. Was daraus schlüpft – offen.</p>
       </div>
     </div>
   </div>
@@ -1147,66 +809,40 @@
       <h2>FRAKTIONEN &amp; BEDROHUNGEN</h2>
       <div class="section-line"></div>
     </div>
-
     <div class="faction-grid">
 
       <div class="faction-card danger">
         <div class="faction-status status-active">// AKTIV //</div>
         <div class="faction-name">Meridian-Kohorte</div>
-        <p class="faction-desc">Semi-legale Fraktion aus Ex-Söldnern, Konzernabtrünnigen und Datenhändlern. Verkauft vorhersagende Einsatzdaten. Denkt in Wahrscheinlichkeiten, nicht in Gut/Böse.</p>
-        <div class="faction-detail">
-          Eine Zelle auf Absalom Station wurde von der Crew zerschlagen. Axiom-9 – ihr Kernsystem – wurde übernommen.
-          Die Organisation existiert aber weiter. Hat die Aufmerksamkeit auf die Gruppe gerichtet.
-          Werden versuchen, Axiom-9 zurückzuholen oder zu zerstören.
-        </div>
+        <p class="faction-desc">Semi-legale Fraktion. Verkauft vorhersagende Einsatzdaten. Denkt in Wahrscheinlichkeiten.</p>
+        <div class="faction-detail">Eine Zelle wurde zerschlagen. Axiom-9 übernommen. Die Organisation existiert weiter – und will Axiom-9 zurück.</div>
       </div>
 
       <div class="faction-card neutral">
         <div class="faction-status status-controlled">// UNTER KONTROLLE //</div>
         <div class="faction-name">Axiom-9</div>
-        <p class="faction-desc">Teil-sentiente Prognose-Entität. Entstanden aus KI und psionischen Resten. Wurde durch Rissenergie massiv weiterentwickelt.</p>
-        <div class="faction-detail">
-          Nun gebunden in der Basis der Gruppe. Keine autonomen Operationen mehr. Analysiert und warnt.
-          Weiß, dass seine Modelle irgendwann enden. Wie es zu seiner ungewöhnlichen Entwicklung kam – unklar.
-        </div>
+        <p class="faction-desc">Teil-sentiente Prognose-Entität. Jetzt in der Basis gebunden.</p>
+        <div class="faction-detail">Keine autonomen Operationen mehr. Wie es zu seiner ungewöhnlichen Entwicklung kam – unklar.</div>
       </div>
 
       <div class="faction-card danger">
         <div class="faction-status status-escaped">// ENTKOMMEN //</div>
         <div class="faction-name">Drachenklaue</div>
-        <p class="faction-desc">Krimineller Roboterdrache. Stahl Schrott und tötete Arbeiter im Ring der Absalom Station.</p>
-        <div class="faction-detail">
-          Entkam nach hartem Kampf. Sein Versteck – die 49. Ebene – gehört jetzt der Crew.
-          Motivlage nach der Niederlage unklar. Dürfte nicht begeistert sein.
-        </div>
+        <p class="faction-desc">Krimineller Roboterdrache. Sein Versteck gehört jetzt der Crew.</p>
+        <div class="faction-detail">Entkam nach hartem Kampf. Motivlage unklar. Dürfte nicht begeistert sein.</div>
       </div>
 
       <div class="faction-card danger">
         <div class="faction-status status-active">// NEU ENTDECKT //</div>
         <div class="faction-name">Xenodyne Solutions</div>
-        <p class="faction-desc">Biotech-Konzern. „Wir entwickeln nicht nur Leben – wir optimieren es." Entwickelt genetisch modifizierte Kampfbestien für Söldner und Konzernarmeen.</p>
-        <div class="faction-detail">
-          Der Smaragd-Alpha war ein Feldtest. Ein Labor auf Castrovel wurde entdeckt.
-          Forschungsdaten gesichert. Wie weit das Programm geht – unbekannt.
-          Das Ei ist noch bei der Crew.
-        </div>
-      </div>
-
-      <div class="faction-card neutral">
-        <div class="faction-status status-unknown">// UNBEKANNT //</div>
-        <div class="faction-name">Der Riss</div>
-        <p class="faction-desc">Kein Unfall. Kein Stationsdefekt. Der Riss taucht immer wieder auf – an verschiedenen Orten, in verschiedenen Formen. Etwas steckt dahinter. Was genau, ist unklar.</p>
-        <div class="faction-detail">
-          Ein Grabmarschall trat bisher als erkennbare Entität auf – kein gewöhnliches Monster, eher ein Kommandant.
-          Er musterte Nu'um gezielt und verschwand wieder. Für wen oder was er handelt: unbekannt.
-          Die Station versucht aktiv, Riss-Ereignisse aus ihren Logs zu tilgen.
-        </div>
+        <p class="faction-desc">„Wir optimieren Leben." Entwickelt genetisch modifizierte Kampfbestien.</p>
+        <div class="faction-detail">Der Smaragd-Alpha war ein Feldtest. Ein Labor gefunden. Wie weit das Programm geht – unbekannt. Das Ei ist noch bei der Crew.</div>
       </div>
 
     </div>
   </div>
 
-  <!-- DER RISS -->
+  <!-- RISS -->
   <div class="section" id="riss">
     <div class="section-header">
       <div class="section-tag">// ANOMALIE //</div>
@@ -1217,44 +853,44 @@
     <div class="riss-card">
       <div class="riss-title">Was ist der Riss?</div>
       <p class="riss-text">
-        Der Riss ist kein normales Phänomen. Kein Stationsdefekt. Kein Drift-Ausschlag.<br><br>
-        Seit dem ersten Vorfall im Pilsstübchen ist er immer wieder aufgetaucht – an verschiedenen Orten,
-        in verschiedenen Formen. Immer mit demselben Gefühl: <em>„Etwas reagiert."</em><br><br>
-        Die Station scheint ihn nicht dokumentieren zu wollen. Logs werden überschrieben.
-        Ereignisse werden „neu eingeordnet". Zeugen erinnern sich an Stromausfälle.
+        Kein normales Phänomen. Kein Stationsdefekt. Kein Drift-Ausschlag.<br><br>
+        Er taucht immer wieder auf – an verschiedenen Orten, in verschiedenen Formen.
+        Immer mit demselben Gefühl: <em>„Etwas reagiert."</em><br><br>
+        Die Station scheint ihn nicht dokumentieren zu wollen.
+        Logs werden überschrieben. Ereignisse werden „neu eingeordnet".
       </p>
     </div>
 
-    <div class="card" style="margin-bottom:24px;">
-      <div class="base-item-title" style="margin-bottom:16px;">WAS DIE CREW WEISS</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="base-item-title" style="margin-bottom:14px;">WAS DIE CREW WEISS</div>
       <div class="riss-anchor">
         <div class="anchor-dot"></div>
-        <div class="anchor-text">Der Riss bringt Kreaturen herüber, die nicht von hier sind – Fantasy-Wesen, die desorientiert und gefährlich sind.</div>
+        <div class="anchor-text">Der Riss bringt Kreaturen herüber – Fantasy-Wesen, desorientiert und gefährlich.</div>
       </div>
       <div class="riss-anchor">
         <div class="anchor-dot"></div>
-        <div class="anchor-text">Er erzeugt echte Risskreaturen: Parasiten, Imitatoren, Kommandanten. Diese sind gezielter und intelligenter.</div>
+        <div class="anchor-text">Er erzeugt echte Risskreaturen: Parasiten, Imitatoren, Kommandanten. Gezielter und intelligenter.</div>
       </div>
       <div class="riss-anchor">
         <div class="anchor-dot"></div>
-        <div class="anchor-text">Kha'reshs Gospel hat auf den Riss reagiert und vor ihm gewarnt – <em>„Zweite Tür… nicht gesehen werden…"</em></div>
+        <div class="anchor-text">Kha'reshs Gospel reagierte auf den Riss: <em>„Zweite Tür… nicht gesehen werden…"</em></div>
       </div>
       <div class="riss-anchor">
         <div class="anchor-dot"></div>
-        <div class="anchor-text">Nu'um erwachte durch direkten Riss-Einfluss. Der Grabmarschall musterte sie gezielt und sagte: <em>„Das Echo hat einen Körper gefunden."</em> Was das bedeutet – unklar.</div>
+        <div class="anchor-text">Nu'um erwachte durch Riss-Einfluss. Der Grabmarschall: <em>„Das Echo hat einen Körper gefunden."</em> Was das bedeutet – unklar.</div>
       </div>
       <div class="riss-anchor">
         <div class="anchor-dot"></div>
-        <div class="anchor-text">Xerath kam selbst durch einen Riss auf die Station. Seine Herkunft passt zu keiner bekannten Welt in den Paktwelten.</div>
+        <div class="anchor-text">Xerath kam selbst durch einen Riss. Seine Herkunft passt zu keiner bekannten Welt.</div>
       </div>
       <div class="riss-anchor" style="border-bottom:none;">
         <div class="anchor-dot"></div>
-        <div class="anchor-text">Axiom-9 hat nachweislich eine ungewöhnliche Verbindung zur Rissenergie – ihr Entwicklungssprung war nicht erklärbar.</div>
+        <div class="anchor-text">Bestimmte Zahlen tauchen immer wieder auf – in Stationslogs, Beschriftungen und Systemen rund um Riss-Ereignisse. Zufall oder Muster?</div>
       </div>
     </div>
 
     <div class="info-box warning">
-      <strong>Offene Fragen:</strong> Woher kommen die Kreaturen genau? Was will der Grabmarschall? Warum reagieren manche Personen stärker auf den Riss als andere? Was steckt hinter dem Muster?
+      <strong>Offene Fragen:</strong> Woher kommen die Kreaturen? Was will der Grabmarschall? Warum reagieren manche Personen stärker auf den Riss?
     </div>
   </div>
 
@@ -1265,55 +901,54 @@
       <h2>WICHTIGE NPCs</h2>
       <div class="section-line"></div>
     </div>
-
     <div class="npc-grid">
 
       <div class="npc-card">
         <div class="npc-name">Bobschka „Bob"</div>
         <div class="npc-role">// SHIRREN · BROKER · PILOT //</div>
-        <p class="npc-desc">Barkeeper und Broker. Früher Schmuggler und Pilot. Jetzt in der Basis der Gruppe. Weiß fast alles. Sagt nicht alles. Ist allen etwas schuldig – und das weiß er.</p>
+        <p class="npc-desc">Barkeeper und Broker. Früher Schmuggler. Jetzt in der Basis. Weiß fast alles. Sagt nicht alles.</p>
       </div>
 
       <div class="npc-card">
         <div class="npc-name">Dr. Vexil Chrom</div>
         <div class="npc-role">// AUGMENTATIONSCHIRURG //</div>
-        <p class="npc-desc">Betreibt die Verbesserungsstube in der 49. Ebene. Sammelt still Daten. Betrachtet Körper als modulare Plattformen. Hat Roks Bein. Hat Nu'ums Haut. Niemand fragt warum.</p>
+        <p class="npc-desc">Verbesserungsstube in der 49. Ebene. Betrachtet Körper als Plattformen. Hat Roks Bein. Hat Nu'ums Haut.</p>
       </div>
 
       <div class="npc-card">
         <div class="npc-name">Dr. Elya Voss</div>
         <div class="npc-role">// FORSCHUNGSKOORDINATORIN //</div>
-        <p class="npc-desc">Wollte Nu'ums Körper kaufen. Hat beim Riss-Auftauchen Panik bekommen und die Gruppe eingesperrt. Ist seitdem untergetaucht. Screw will ihr Geld zurück.</p>
+        <p class="npc-desc">Wollte Nu'ums Körper kaufen. Sperrte die Gruppe ein. Ist untergetaucht. Screw will ihr Geld zurück.</p>
       </div>
 
       <div class="npc-card">
         <div class="npc-name">Old Rell</div>
         <div class="npc-role">// YSOKI · EX-STATIONSWART //</div>
-        <p class="npc-desc">Sitzt immer in der Ecke des Pilsstübchens. Hört alles. Kennt jeden Wartungsschacht. Ist mit einem heißen Androiden verheiratet. Hat noch nie eine Frage unbeantwortet gelassen, die respektvoll gestellt wurde.</p>
+        <p class="npc-desc">Sitzt in der Ecke. Hört alles. Kennt jeden Wartungsschacht. Mit einem heißen Androiden verheiratet.</p>
       </div>
 
       <div class="npc-card">
         <div class="npc-name">Rixa „Zwei-Gläser" Voluun</div>
         <div class="npc-role">// KASATHA · DOCKARBEITERIN //</div>
-        <p class="npc-desc">Stammgast. Trinkt immer zwei Gläser gleichzeitig. Hat das Meridian-Symbol gesehen. Weiß, wie Söldner sich verhalten. Redet nur, wenn es wichtig ist.</p>
+        <p class="npc-desc">Trinkt immer zwei Gläser gleichzeitig. Hat das Meridian-Symbol gesehen. Redet nur wenn es wichtig ist.</p>
       </div>
 
       <div class="npc-card">
         <div class="npc-name">Lysa Brenn</div>
         <div class="npc-role">// MENSCH · BEDIENUNG //</div>
-        <p class="npc-desc">Loyal zu Bob. Flink, überfordert, professionell. Kennt jede Stimmungsänderung im Raum und jeden Stammgast. Sammelt Muster – und hat Angst, irgendwann zu viel zu wissen.</p>
+        <p class="npc-desc">Loyal zu Bob. Kennt jede Stimmungsänderung und jeden Stammgast. Hat Angst irgendwann zu viel zu wissen.</p>
       </div>
 
       <div class="npc-card">
         <div class="npc-name">Orvyn Kess</div>
         <div class="npc-role">// ANDROID · STREAMER //</div>
-        <p class="npc-desc">Filmt ständig alles. Nicht bösartig, aber rücksichtslos mit Privatsphäre. Verbreitet alles schnell an die falschen Ohren, wenn man ihn nicht einfängt.</p>
+        <p class="npc-desc">Filmt alles. Nicht bösartig, aber rücksichtslos. Verbreitet alles an die falschen Ohren.</p>
       </div>
 
       <div class="npc-card">
         <div class="npc-name">Bolt</div>
         <div class="npc-role">// KAMPFDROHNE · HAUSTIER //</div>
-        <p class="npc-desc">Screws Drohne. Verhält sich wie ein Hund. Reitbar. Hat sich bei Apophis Delta heldenhaft vor Screw geworfen – Screw rollte einfach zur Seite. Unzertrennliches Duo.</p>
+        <p class="npc-desc">Screws Drohne. Verhält sich wie ein Hund. Reitbar. Hat sich heldenhaft vor Screw geworfen – Screw rollte zur Seite.</p>
       </div>
 
     </div>
@@ -1326,30 +961,28 @@
       <h2>REGELWERKE</h2>
       <div class="section-line"></div>
     </div>
-
-    <div class="info-box" style="margin-bottom:30px;">
-      Die folgenden Regelwerke stehen als PDF zum Download bereit. Bereitgestellt mit freundlicher Genehmigung von Ulisses Spiele.
+    <div class="info-box" style="margin-bottom:20px;">
+      Bereitgestellt mit freundlicher Genehmigung von Ulisses Spiele.
     </div>
-
     <div class="base-grid">
 
       <a href="https://drive.google.com/uc?export=download&id=11Smk1pHdRf7sAmjj5AbuVXkXI6eRkPwq" target="_blank" style="text-decoration:none;">
-        <div class="card" style="cursor:pointer; text-align:center; padding:40px 28px;">
-          <div style="font-size:48px; margin-bottom:16px;">📖</div>
-          <div class="base-item-title" style="margin-bottom:10px; font-size:16px;">GRUNDREGELWERK</div>
-          <p class="base-item-desc" style="margin-bottom:20px;">Das vollständige Starfinder Grundregelwerk. Klassen, Völker, Regeln, Ausrüstung und mehr.</p>
-          <div style="display:inline-block; font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:3px; color:var(--accent); border:1px solid rgba(0,212,255,0.4); padding:8px 20px; background:rgba(0,212,255,0.05);">
+        <div class="card" style="text-align:center; padding:28px 20px; cursor:pointer;">
+          <div style="font-size:40px; margin-bottom:12px;">📖</div>
+          <div class="base-item-title" style="margin-bottom:8px;">GRUNDREGELWERK</div>
+          <p class="base-item-desc" style="margin-bottom:16px;">Klassen, Völker, Regeln, Ausrüstung und mehr.</p>
+          <div style="font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--accent); border:1px solid rgba(0,212,255,0.4); padding:8px 16px; background:rgba(0,212,255,0.05); display:inline-block; border-radius:3px;">
             [ PDF HERUNTERLADEN ]
           </div>
         </div>
       </a>
 
       <a href="https://drive.google.com/uc?export=download&id=1sOwt0PAfe2P61N0auXG-zM6J2KwANbev" target="_blank" style="text-decoration:none;">
-        <div class="card" style="cursor:pointer; text-align:center; padding:40px 28px;">
-          <div style="font-size:48px; margin-bottom:16px;">📋</div>
-          <div class="base-item-title" style="margin-bottom:10px; font-size:16px;">EINSATZHANDBUCH: CHARAKTERE</div>
-          <p class="base-item-desc" style="margin-bottom:20px;">Neue Klassen (Biohacker, Entropiker, Hexer), Archetypen, Ausrüstung und Charakteroptionen.</p>
-          <div style="display:inline-block; font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:3px; color:var(--accent); border:1px solid rgba(0,212,255,0.4); padding:8px 20px; background:rgba(0,212,255,0.05);">
+        <div class="card" style="text-align:center; padding:28px 20px; cursor:pointer;">
+          <div style="font-size:40px; margin-bottom:12px;">📋</div>
+          <div class="base-item-title" style="margin-bottom:8px;">EINSATZHANDBUCH: CHARAKTERE</div>
+          <p class="base-item-desc" style="margin-bottom:16px;">Biohacker, Entropiker, Hexer und neue Optionen.</p>
+          <div style="font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--accent); border:1px solid rgba(0,212,255,0.4); padding:8px 16px; background:rgba(0,212,255,0.05); display:inline-block; border-radius:3px;">
             [ PDF HERUNTERLADEN ]
           </div>
         </div>
@@ -1361,12 +994,11 @@
 </main>
 
 <footer>
-  <div style="margin-bottom:8px;">// ABSALOM STATION · 49. EBENE · PILSSTÜBCHEN //</div>
-  <div>RISSAKTIVITÄT: ANDAUERND &nbsp;·&nbsp; LOGS: WERDEN NEU EINGEORDNET &nbsp;·&nbsp; STATUS: KOMPLEX</div>
+  <div>// ABSALOM STATION · 49. EBENE · PILSSTÜBCHEN //</div>
+  <div>RISSAKTIVITÄT: ANDAUERND · STATUS: KOMPLEX</div>
 </footer>
 
 <script>
-// Expand/collapse
 function toggleExpand(btn) {
   const expandable = btn.nextElementSibling;
   const isOpen = expandable.classList.contains('open');
@@ -1380,7 +1012,6 @@ NAV_IDS.forEach(id => {
   navEls[id] = document.querySelector(`nav a[href="#${id}"]`);
 });
 
-// Nur durch Scrollen – nie durch Klick
 function updateNav() {
   const mid = window.scrollY + window.innerHeight * 0.35;
   let active = null;
@@ -1396,7 +1027,6 @@ function updateNav() {
 window.addEventListener('scroll', updateNav, { passive: true });
 updateNav();
 
-// Klick: nur scrollen, nav-active bleibt unberührt
 NAV_IDS.forEach(id => {
   navEls[id]?.addEventListener('click', e => {
     e.preventDefault();
@@ -1408,4 +1038,3 @@ NAV_IDS.forEach(id => {
 
 </body>
 </html>
- 
