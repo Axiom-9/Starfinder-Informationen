@@ -236,18 +236,18 @@ h2 {
 .timeline::before {
   content: '';
   position: absolute;
-  left: 8px; top: 0; bottom: 0;
+  left: 5px; top: 0; bottom: 0;
   width: 1px;
   background: linear-gradient(180deg, var(--accent), transparent);
 }
 .timeline-item { position: relative; margin-bottom: 28px; }
 .timeline-dot {
   position: absolute;
-  left: -24px; top: 6px;
+  left: -2px; top: 8px;
   width: 10px; height: 10px;
   border: 1px solid var(--accent);
   background: var(--bg);
-  transform: rotate(45deg);
+  transform: translateX(-50%) rotate(45deg);
   transition: background 0.3s;
 }
 .timeline-item:hover .timeline-dot { background: var(--accent); }
@@ -512,6 +512,7 @@ footer {
     <a href="#fraktionen">Fraktionen</a>
     <a href="#riss">Der Riss</a>
     <a href="#npcs">NPCs</a>
+    <a href="#axiom">Axiom-9</a>
     <a href="#regelwerke">Regelwerke</a>
   </div>
 </nav>
@@ -991,6 +992,61 @@ footer {
     </div>
   </div>
 
+  <!-- AXIOM-9 NACHRICHTEN -->
+  <div class="section" id="axiom">
+    <div class="section-header">
+      <div class="section-tag">// TRANSMISSION //</div>
+      <h2>AXIOM-9 NACHRICHTEN</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="info-box warning" style="margin-bottom:30px;">
+      Axiom-9 überträgt gelegentlich Nachrichten direkt an die Crew. Herkunft der Daten: unbekannte Quelle. Klassifizierung: ausstehend.
+    </div>
+
+    <div style="position:relative;">
+
+      <!-- Vertikale Linie links -->
+      <div style="position:absolute; left:5px; top:0; bottom:0; width:1px; background:linear-gradient(180deg, #bf7fff, transparent);"></div>
+
+      <!-- Nachricht 01 -->
+      <div style="position:relative; padding-left:28px; margin-bottom:20px;">
+
+        <!-- Raute -->
+        <div style="position:absolute; left:-2px; top:10px; width:10px; height:10px; border:1px solid #bf7fff; background:var(--bg); transform:translateX(-50%) rotate(45deg);"></div>
+
+        <div style="background:linear-gradient(135deg, rgba(13,21,32,0.95), rgba(20,10,30,0.95)); border:1px solid rgba(127,0,255,0.3); padding:28px; position:relative; overflow:hidden;">
+
+          <!-- Hintergrund-Glow -->
+          <div style="position:absolute; inset:0; background:radial-gradient(ellipse 60% 40% at 50% 50%, rgba(127,0,255,0.04), transparent); pointer-events:none;"></div>
+
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+            <div style="font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:3px; color:#bf7fff;">// NACHRICHT 01 //</div>
+            <div style="font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--text-dim);">ZEITSTEMPEL: FEHLERHAFT</div>
+            <div style="font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--accent2); border:1px solid rgba(255,107,43,0.3); padding:2px 8px;">VERSCHLÜSSELT</div>
+          </div>
+
+          <p style="font-family:'Share Tech Mono',monospace; font-size:13px; color:#a090b0; line-height:1.8; margin-bottom:20px;">
+            Datenpaket empfangen.<br>
+            Inhalt: nicht vollständig dekodierbar.<br>
+            Wahrscheinlichkeit relevanter Information: <span style="color:#bf7fff;">hoch</span>.<br>
+            Empfehlung: Entschlüsselung durch Crew.
+          </p>
+
+          <a href="https://axiom-9.github.io/VERSCHLUESSELTE-NACHRICHT/" target="_blank" style="text-decoration:none; display:inline-block;">
+            <div style="font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:3px; color:#bf7fff; border:1px solid rgba(127,0,255,0.4); padding:10px 24px; background:rgba(127,0,255,0.06); transition:all 0.2s; cursor:pointer;"
+              onmouseover="this.style.background='rgba(127,0,255,0.15)'"
+              onmouseout="this.style.background='rgba(127,0,255,0.06)'">
+              [ NACHRICHT ÖFFNEN → ]
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </main>
 
 <footer>
@@ -1006,7 +1062,7 @@ function toggleExpand(btn) {
   btn.textContent = isOpen ? '[ DETAILS ANZEIGEN ]' : '[ DETAILS VERBERGEN ]';
 }
 
-const NAV_IDS = ['abenteuer','charaktere','basis','fraktionen','riss','npcs','regelwerke'];
+const NAV_IDS = ['abenteuer','charaktere','basis','fraktionen','riss','npcs','regelwerke','axiom'];
 const navEls = {};
 NAV_IDS.forEach(id => {
   navEls[id] = document.querySelector(`nav a[href="#${id}"]`);
